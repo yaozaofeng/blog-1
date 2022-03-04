@@ -37,7 +37,7 @@ const handleBlogRouter = (req, res) => {
   if (method === "POST" && req.path === "/api/blog/new") {
     // const data = newBlog(req.body);
     // return new SuccessModel(data);
-    req.body.author = 'zhangsan'; // 待开发登录时改为真实数据
+    req.body.author = "zhangsan"; // 假数据，待开发登录时改为真实数据
     const result = newBlog(req.body);
     return result.then((data) => {
       return new SuccessModel(data);
@@ -47,21 +47,26 @@ const handleBlogRouter = (req, res) => {
   // 更新一篇博客
   if (method === "POST" && req.path === "/api/blog/update") {
     const result = updateBlog(id, req.body);
-    if (result) {
-      return new SuccessModel();
-    } else {
-      return new ErrorModel("更新模块失败");
-    }
+    return result.then((val) => {
+      if (val) {
+        return new SuccessModel();
+      } else {
+        return new ErrorModel("更新模块失败");
+      }
+    });
   }
 
   // 删除一篇博客
   if (method === "POST" && req.path === "/api/blog/del") {
-    const result = delBlog(id);
-    if (result) {
-      return new SuccessModel();
-    } else {
-      return new ErrorModel("删除模块失败");
-    }
+    const author = "lisi"; // 假数据，待开发登录时改为真实数据
+    const result = delBlog(id, author);
+    return result.then((val) => {
+      if (val) {
+        return new SuccessModel();
+      } else {
+        return new ErrorModel("删除模块失败");
+      }
+    });
   }
 };
 
