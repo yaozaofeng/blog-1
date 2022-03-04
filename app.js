@@ -32,12 +32,26 @@ const serverHandle = (req, res) => {
   // 设置返回格式 JSON
   res.setHeader("Content-type", "application/json");
 
-  // 处理 path
+  // 获取 path
   const url = req.url;
   req.path = url.split("?")[0];
 
-  // 处理 query
+  // 解析 query
   req.query = querystring.parse(url.split("?")[1]);
+
+  // 解析 cookie
+  req.cookie = {};
+  const cookieStr = req.headers.cookie || ""; // k1=v1;k2=v2;k3=v3
+  cookieStr.split(";").forEach((item) => {
+    if (!item) {
+      return;
+    }
+    const arr = item.split("=");
+    const key = arr[0];
+    const val = arr[1];
+    req.cookie[key] = val;
+  });
+  console.log('req.cookie is', req.cookie)
 
   // 处理 post data
   getPostData(req).then((postData) => {
