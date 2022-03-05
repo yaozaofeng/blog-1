@@ -47,7 +47,7 @@ const updateBlog = (id, blogData = {}) => {
   const content = blogData.content;
 
   const sql = `
-    update blogs set title='${title}', content='${content}' where id='${id};'
+    update blogs set title='${title}', content='${content}' where id='${id}';
   `;
 
   return exec(sql).then((updateData) => {
